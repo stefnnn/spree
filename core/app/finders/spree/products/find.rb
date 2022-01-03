@@ -215,7 +215,7 @@ module Spree
         when 'name-z-a'
           products.order(name: :desc)
         when 'newest-first'
-          products.order(available_on: :desc)
+          products.order(make_active_at: :desc)
         when 'price-high-to-low'
           products.
             select("#{Product.table_name}.*, #{Spree::Price.table_name}.amount").

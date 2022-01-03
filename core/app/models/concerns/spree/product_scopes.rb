@@ -252,9 +252,9 @@ module Spree
       search_scopes << :with_currency
 
       # Can't use add_search_scope for this as it needs a default argument
-      def self.available(available_on = nil, currency = nil)
-        if available_on
-          scope = not_discontinued.where("#{Product.quoted_table_name}.available_on <= ?", available_on)
+      def self.available(make_active_at = nil, currency = nil)
+        if make_active_at
+          scope = not_discontinued.where("#{Product.quoted_table_name}.make_active_at <= ?", make_active_at)
         else
           scope = where(status: 'active')
         end
@@ -284,7 +284,7 @@ module Spree
         if user.try(:has_spree_role?, 'admin')
           with_deleted
         else
-          not_deleted.not_discontinued.where("#{Product.quoted_table_name}.available_on <= ?", Time.current)
+          not_deleted.where(status: 'active')
         end
       end
 
